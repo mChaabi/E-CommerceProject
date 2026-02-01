@@ -3,6 +3,21 @@
 Application **full-stack e-commerce** conçue pour la **gestion complète des stocks, des produits, des catégories et des commandes**, destinée à un environnement administratif moderne et performant.  
 Le système repose sur une **architecture robuste et modulaire**, combinant **Angular 21** pour le frontend et **Spring Boot 21 (Java 21)** pour le backend.
 
+## 📸 Aperçu de l’Application
+
+### 📊 Dashboard
+![Dashboard](screenshots/Dashbord.png)
+
+### 🗂 Gestion des Catégories
+![Catégories](screenshots/GestionCategory.png)
+
+### 📦 Gestion des Produits
+![Produits](screenshots/GestionProduct.png)
+
+### 🧾 Gestion des Commandes
+![Commandes](screenshots/GestionCommande.png)
+
+
 ## 🛠️ Technologies & Outils
 
 ### Backend
