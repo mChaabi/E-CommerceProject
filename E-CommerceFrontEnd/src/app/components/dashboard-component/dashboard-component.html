@@ -1,0 +1,42 @@
+<div class="dashboard-container">
+  <h1>Tableau de Bord</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="icon revenue">💰</div>
+      <div class="stat-info">
+        <span>Revenu Total</span>
+        <h3>{{ totalRevenue() }} €</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon orders">📜</div>
+      <div class="stat-info">
+        <span>Commandes</span>
+        <h3>{{ orderCount() }}</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon products">📦</div>
+      <div class="stat-info">
+        <span>Produits</span>
+        <h3>{{ productCount() }}</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon categories">📁</div>
+      <div class="stat-info">
+        <span>Catégories</span>
+        <h3>{{ categoryCount() }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <h3>Évolution des Ventes</h3>
+    <canvas #salesChart></canvas>
+  </div>
+</div>

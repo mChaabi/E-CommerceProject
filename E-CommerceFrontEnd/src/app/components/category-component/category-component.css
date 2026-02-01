@@ -1,0 +1,24 @@
+.container { padding: 30px; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+h1 { font-size: 24px; color: #1a1a1a; margin: 0; }
+
+/* Table Style */
+.table-wrapper { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #fcfcfc; padding: 15px; text-align: left; color: #888; font-weight: 500; border-bottom: 1px solid #eee; }
+td { padding: 15px; border-bottom: 1px solid #f9f9f9; color: #444; }
+
+/* Badge & Buttons */
+.badge { background: #eef2ff; color: #4f46e5; padding: 4px 10px; border-radius: 20px; font-size: 12px; }
+.btn-add { background: #2ecc71; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 500; transition: 0.3s; }
+.btn-add:hover { background: #27ae60; }
+.btn-save { background: #4f46e5; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+.btn-icon-delete { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
+/* Form Card */
+.card-form { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 20px; max-width: 500px; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; color: #374151; font-size: 14px; }
+input, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; }
+
+.empty-state { text-align: center; padding: 40px; color: #9ca3af; }

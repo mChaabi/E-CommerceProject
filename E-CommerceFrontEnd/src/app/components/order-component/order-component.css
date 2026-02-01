@@ -1,0 +1,192 @@
+/* Container Principal */
+.container {
+  padding: 2rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header & Boutons */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  color: #1e293b;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: #2ecc71; /* Vert comme ta capture "Nouvelle Catégorie" */
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+/* Carte du Formulaire */
+.order-form-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  border: 1px solid #e2e8f0;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  outline: none;
+}
+
+/* Lignes d'articles dynamiques */
+.items-section {
+  background-color: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.item-row input {
+  padding: 0.6rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.btn-remove {
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-add-item {
+  background: none;
+  border: 2px dashed #94a3b8;
+  color: #64748b;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-save {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Table Design */
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #fcfcfc;
+  color: #94a3b8;
+  text-align: left;
+  padding: 1.2rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+td {
+  padding: 1.2rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+/* Status Badges (Select) */
+select {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.status-pending { background-color: #fef3c7; color: #d97706; }
+.status-shipped { background-color: #dcfce7; color: #16a34a; }
+.status-delivered { background-color: #dbeafe; color: #2563eb; }
+.status-cancelled { background-color: #fee2e2; color: #dc2626; }
+
+.amount {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.item-count {
+  background-color: #f1f5f9;
+  padding: 0.3rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.btn-delete:hover {
+  background-color: #fee2e2;
+}

@@ -1,0 +1,74 @@
+:host {
+  --sidebar-width: 260px;
+  --bg-color: #1e293b;
+  --text-color: #f8fafc;
+  --accent-color: #3b82f6;
+  --hover-color: #334155;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--hover-color);
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 1rem 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  gap: 15px;
+}
+
+.nav-link:hover {
+  background-color: var(--hover-color);
+  color: white;
+}
+
+.nav-link.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-left: 4px solid #fff;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #64748b;
+  border-top: 1px solid var(--hover-color);
+}

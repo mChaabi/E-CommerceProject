@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Catégories</h1>
+    <button class="btn-add" (click)="toggleForm()">
+      {{ showForm() ? 'Annuler' : '+ Nouvelle Catégorie' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="card-form">
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Nom de la catégorie</label>
+          <input type="text" formControlName="name" placeholder="Ex: Électronique">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea formControlName="description" placeholder="Description facultative..."></textarea>
+        </div>
+        <button type="submit" [disabled]="categoryForm.invalid" class="btn-save">Enregistrer</button>
+      </form>
+    </div>
+  }
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Nombre de Produits</th>
+          <th style="text-align: right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cat of categoryService.categories(); track cat.id) {
+          <tr>
+            <td>#{{ cat.id }}</td>
+            <td><strong>{{ cat.name }}</strong></td>
+            <td>{{ cat.description || 'Aucune description' }}</td>
+            <td>
+              <span class="badge">{{ cat.products?.length || 0 }} produits</span>
+            </td>
+            <td style="text-align: right;">
+              <button class="btn-icon-delete" (click)="onDelete(cat.id!)">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="empty-state">Aucune catégorie disponible.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

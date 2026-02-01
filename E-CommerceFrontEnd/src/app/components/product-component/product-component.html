@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Produits</h1>
+    <button class="btn-primary" (click)="toggleForm()">
+      {{ showForm() ? 'Fermer' : '+ Ajouter un Produit' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="form-container">
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <div class="grid-form">
+          <input type="text" formControlName="name" placeholder="Nom du produit">
+          <input type="number" formControlName="price" placeholder="Prix">
+          <input type="number" formControlName="originalPrice" placeholder="Prix d'origine">
+          <input type="number" formControlName="stockQuantity" placeholder="Quantité en stock">
+          <input type="text" formControlName="color" placeholder="Couleur">
+          <input type="number" formControlName="categoryId" placeholder="ID Catégorie">
+        </div>
+        <textarea formControlName="description" placeholder="Description"></textarea>
+        <button type="submit" [disabled]="productForm.invalid" class="btn-submit">Enregistrer le produit</button>
+      </form>
+    </div>
+  }
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Prix</th>
+          <th>Stock</th>
+          <th>Couleur</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of productService.products(); track item.id) {
+          <tr>
+            <td>#{{ item.id }}</td>
+            <td><strong>{{ item.name }}</strong></td>
+            <td>{{ item.price }} €</td>
+            <td>
+              <span [class.low-stock]="item.stockQuantity < 5">
+                {{ item.stockQuantity }}
+              </span>
+            </td>
+            <td>{{ item.color || '-' }}</td>
+            <td>
+              <button class="btn-delete" (click)="onDelete(item.id)">Supprimer</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" style="text-align: center;">Aucun produit trouvé.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

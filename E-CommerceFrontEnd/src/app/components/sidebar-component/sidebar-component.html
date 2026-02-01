@@ -1,0 +1,25 @@
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <span class="logo-icon">🚀</span>
+    <h2 class="logo-text">AdminPanel</h2>
+  </div>
+
+  <ul class="nav-list">
+    @for (item of navItems; track item.path) {
+      <li>
+        <a [routerLink]="item.path"
+           routerLinkActive="active"
+           class="nav-link">
+          <span class="icon">{{ item.icon }}</span>
+          <span class="label">{{ item.label }}</span>
+        </a>
+      </li>
+    } @empty {
+      <li class="nav-link">Aucun menu disponible</li>
+    }
+  </ul>
+
+  <div class="sidebar-footer">
+    <p>© 2026 Entreprise</p>
+  </div>
+</nav>

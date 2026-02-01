@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Commandes</h1>
+    <button class="btn-primary" (click)="showForm.set(!showForm())">
+      {{ showForm() ? 'Annuler' : '+ Nouvelle Commande' }}
+    </button>
+  </div>
+
+  @if (showForm()) {
+    <div class="order-form-card">
+      <h3>Détails de la commande</h3>
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>ID Client</label>
+          <input type="number" [(ngModel)]="newOrder.userId" name="userId" required>
+        </div>
+
+        <div class="items-section">
+          <h4>Articles</h4>
+          @for (item of newOrder.items; track $index) {
+            <div class="item-row">
+              <input type="number" placeholder="ID Produit" [(ngModel)]="item.productId" name="prod-{{$index}}" required>
+              <input type="number" placeholder="Quantité" [(ngModel)]="item.quantity" name="qty-{{$index}}" required>
+              <input type="number" placeholder="Prix Unitaire" [(ngModel)]="item.price" name="price-{{$index}}" required>
+              <button type="button" class="btn-remove" (click)="removeItem($index)">×</button>
+            </div>
+          }
+          <button type="button" class="btn-add-item" (click)="addItem()">+ Ajouter un article</button>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-save">Enregistrer la commande</button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Articles</th>
+          <th>Total</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (order of orders(); track order.id) {
+        <tr>
+          <td>#{{ order.id }}</td>
+          <td>{{ order.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ order.user?.username || 'Client Inconnu' }}</td>
+          <td>
+            <span class="item-count">
+              {{ order.orderItems?.length || 0 }} objet(s)
+            </span>
+          </td>
+          <td class="amount">{{ order.totalAmount }} €</td>
+          <td>
+            <select [class]="getStatusClass(order.status)" (change)="changeStatus(order.id, $any($event.target).value)">
+              <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
+              <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
+              <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
+              <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn-delete" (click)="onDelete(order.id)">🗑️</button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="7" class="empty-msg">
+            @if (isLoading()) { Chargement... } @else { Aucune commande trouvée. }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
