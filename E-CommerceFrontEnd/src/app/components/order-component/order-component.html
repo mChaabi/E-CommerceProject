@@ -15,6 +15,24 @@
           <input type="number" [(ngModel)]="newOrder.userId" name="userId" required>
         </div>
 
+        <div class="payment-methods-grid">
+          <div class="form-group">
+            <label>Mode de Paiement</label>
+            <select [(ngModel)]="newOrder.paymentMethod" name="paymentMethod" class="form-control">
+              <option value="CASH">CASH (Espèces)</option>
+              <option value="CREDIT">CRÉDIT (Dette)</option>
+              <option value="3ARBON">3ARBON (Avance)</option>
+            </select>
+          </div>
+
+          @if (newOrder.paymentMethod === '3ARBON') {
+            <div class="form-group">
+              <label>Montant de l'avance (3arbon)</label>
+              <input type="number" [(ngModel)]="newOrder.downPayment" name="downPayment" placeholder="0.00 €" required>
+            </div>
+          }
+        </div>
+
         <div class="items-section">
           <h4>Articles</h4>
           @for (item of newOrder.items; track $index) {
@@ -42,8 +60,8 @@
           <th>ID</th>
           <th>Date</th>
           <th>Client</th>
-          <th>Articles</th>
           <th>Total</th>
+          <th>Paiement</th>
           <th>Statut</th>
           <th>Actions</th>
         </tr>
@@ -52,30 +70,29 @@
         @for (order of orders(); track order.id) {
         <tr>
           <td>#{{ order.id }}</td>
-          <td>{{ order.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ order.orderDate | date:'dd/MM HH:mm' }}</td>
           <td>{{ order.user?.username || 'Client Inconnu' }}</td>
+          <td class="amount">{{ order.totalAmount }} €</td>
+
           <td>
-            <span class="item-count">
-              {{ order.orderItems?.length || 0 }} objet(s)
+            <span [class]="'badge-payment ' + 'badge-' + order.paymentMethod?.toLowerCase()">
+              {{ order.paymentMethod }}
+              @if (order.paymentMethod === '3ARBON') {
+                <small>({{ order.downPayment }} €)</small>
+              }
             </span>
           </td>
-          <td class="amount">{{ order.totalAmount }} €</td>
+
           <td>
             <select [class]="getStatusClass(order.status)" (change)="changeStatus(order.id, $any($event.target).value)">
-              <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
-              <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
-              <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
-              <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
+                <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
+                <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
+                <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
+                <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
             </select>
           </td>
           <td>
             <button class="btn-delete" (click)="onDelete(order.id)">🗑️</button>
-          </td>
-        </tr>
-        } @empty {
-        <tr>
-          <td colspan="7" class="empty-msg">
-            @if (isLoading()) { Chargement... } @else { Aucune commande trouvée. }
           </td>
         </tr>
         }

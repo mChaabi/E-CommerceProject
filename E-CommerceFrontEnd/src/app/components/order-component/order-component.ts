@@ -21,6 +21,8 @@ export class OrderComponent implements OnInit {
   // Modèle pour le nouveau formulaire
   newOrder = {
     userId: 1, // Utilisateur par défaut pour le test
+    paymentMethod: 'CASH', // Valeur par défaut
+    downPayment: 0,        // Montant du 3arbon
     items: [{ productId: null, quantity: null, price: null }]
   };
 
@@ -38,38 +40,47 @@ export class OrderComponent implements OnInit {
     this.newOrder.items.splice(index, 1);
   }
 
-onSubmit() {
-  const orderData: any = {
-    orderDate: new Date(),
-    status: 'PENDING',
-    user: { id: Number(this.newOrder.userId) }, // Assurez-vous que c'est un nombre
-    // Utiliser "items" et non "orderItems"
-    items: this.newOrder.items.map(item => ({
-      product: { id: item.productId }, // Souvent le backend attend un objet Product
-      quantity: item.quantity,
-      price: item.price
-    })),
-    totalAmount: this.newOrder.items.reduce((acc, item) =>
-      acc + (item.price !== null ? item.price * (item.quantity ?? 0) : 0), 0)
-  };
+  onSubmit() {
+    const orderData: any = {
+      orderDate: new Date(),
+      status: 'PENDING',
+      // CHANGE ICI : Utilise les valeurs du formulaire
+      paymentMethod: this.newOrder.paymentMethod,
+      downPayment: this.newOrder.downPayment,
+      user: { id: Number(this.newOrder.userId) }, // Assurez-vous que c'est un nombre
+      // Utiliser "items" et non "orderItems"
+      items: this.newOrder.items.map(item => ({
+        product: { id: item.productId }, // Souvent le backend attend un objet Product
+        quantity: item.quantity,
+        price: item.price
+      })),
+      totalAmount: this.newOrder.items.reduce((acc, item) =>
+        acc + (item.price !== null ? item.price * (item.quantity ?? 0) : 0), 0)
+    };
 
-  console.log("Données envoyées :", orderData); // Vérifiez la console avant l'erreur
+    console.log("Données envoyées :", orderData); // Vérifiez la console avant l'erreur
 
-  this.orderService.createOrder(orderData).subscribe({
-    next: (res) => {
-      this.orders.update(prev => [res, ...prev]);
-      this.showForm.set(false);
-      this.resetForm();
-    },
-    error: (err) => {
-      console.error(err); // Affiche l'erreur réelle du serveur
-      alert("Erreur lors de la création : " + (err.error?.message || "Vérifiez les données"));
-    }
-  });
-}
+    this.orderService.createOrder(orderData).subscribe({
+      next: (res) => {
+        this.orders.update(prev => [res, ...prev]);
+        this.showForm.set(false);
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error(err); // Affiche l'erreur réelle du serveur
+        alert("Erreur lors de la création : " + (err.error?.message || "Vérifiez les données"));
+      }
+    });
+  }
 
+  // 3. N'oublie pas de mettre à jour resetForm()
   resetForm() {
-   this.newOrder = { userId: 1, items: [{ productId: null, quantity: null, price: null }] };
+    this.newOrder = {
+      userId: 1,
+      paymentMethod: 'CASH',
+      downPayment: 0,
+      items: [{ productId: null, quantity: null, price: null }]
+    };
   }
 
   // --- Méthodes existantes ---

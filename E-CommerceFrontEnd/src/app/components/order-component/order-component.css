@@ -190,3 +190,22 @@ select {
 .btn-delete:hover {
   background-color: #fee2e2;
 }
+
+.badge-payment {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 11px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.badge-cash { background-color: #dcfce7; color: #166534; }
+.badge-credit { background-color: #fee2e2; color: #991b1b; }
+.badge-3arbon { background-color: #fef3c7; color: #92400e; }
+
+small {
+  display: block;
+  font-size: 10px;
+  color: #666;
+}
