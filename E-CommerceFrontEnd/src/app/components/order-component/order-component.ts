@@ -92,17 +92,16 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  // --- Méthodes existantes ---
   loadOrders() {
     this.orderService.getUserOrders(1).subscribe({
       next: (data) => {
+        console.log("Données reçues du serveur :", data); // Vérifie ici le nom exact du champ paiement
         this.orders.set(data);
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false)
     });
   }
-
   changeStatus(orderId: number | undefined, newStatus: string) {
     if (!orderId) return;
     this.orderService.updateStatus(orderId, newStatus).subscribe(() => {

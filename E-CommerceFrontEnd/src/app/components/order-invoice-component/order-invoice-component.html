@@ -1,6 +1,6 @@
 <div class="invoice-wrapper" *ngIf="order() as o">
   <div class="no-print actions-bar">
-    <button class="btn-back" (click)="goBack()">← Retour</button>
+    <button class="btn-back" (click)="goBack()" RouterLink="/orders">← Retour</button>
     <div class="msg-verify">Veuillez vérifier les données avant d'imprimer</div>
     <button class="btn-confirm-print" (click)="printInvoice()">🖨️ Confirmer et Imprimer</button>
   </div>
@@ -43,11 +43,22 @@
 
     <div class="invoice-footer">
       <div class="payment-details">
-        <p>Mode de paiement : <strong>{{ o.paymentMethod }}</strong></p>
-        <p *ngIf="o.paymentMethod === '3ARBON'">
+        <p>Mode de paiement :
+          <strong style="color: #2c3e50;">
+            {{ o.paymentMethod || 'Non spécifié' }}
+          </strong>
+        </p>
+
+        @if (o.paymentMethod === '3ARBON') {
+        <p class="advance-note">
           Avance payée : <strong>{{ o.downPayment | number:'1.2-2' }} €</strong>
         </p>
+        <p class="balance-note">
+          Reste à payer : <strong>{{ (o.totalAmount - o.downPayment) | number:'1.2-2' }} €</strong>
+        </p>
+        }
       </div>
+
       <div class="totals-box">
         <div class="total-row">
           <span>TOTAL :</span>

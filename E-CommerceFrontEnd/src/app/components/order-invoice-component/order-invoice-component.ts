@@ -20,9 +20,11 @@ export class OrderInvoiceComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      // On charge la commande spécifique
+      // Utilise une méthode getOrderById si elle existe dans ton service
+      // Sinon, garde ta logique mais vérifie la console pour voir si paymentMethod existe
       this.orderService.getUserOrders(1).subscribe(orders => {
         const found = orders.find(o => o.id === Number(id));
+        console.log("Commande pour facture :", found); // Vérifie ici si paymentMethod est présent
         if (found) {
           this.order.set(found);
         } else {
@@ -37,6 +39,6 @@ export class OrderInvoiceComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/orders']);
+    this.router.navigate(['/commandes']);
   }
 }

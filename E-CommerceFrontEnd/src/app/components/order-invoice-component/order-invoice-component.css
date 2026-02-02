@@ -86,3 +86,31 @@ td {
     padding: 0;
   }
 }
+
+
+.payment-details {
+  margin-top: 20px;
+  font-size: 0.95em;
+}
+
+.payment-details p {
+  margin: 5px 0;
+}
+
+.advance-note {
+  color: #e67e22; /* Orange pour l'avance */
+}
+
+.balance-note {
+  font-style: italic;
+  border-top: 1px dashed #ccc;
+  display: inline-block;
+  padding-top: 5px;
+}
+
+/* Cache les boutons lors de l'impression physique */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

@@ -191,21 +191,21 @@ select {
   background-color: #fee2e2;
 }
 
+/* Style des badges de paiement */
 .badge-payment {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 11px;
-  text-transform: uppercase;
-  display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+    display: inline-block;
 }
 
-.badge-cash { background-color: #dcfce7; color: #166534; }
-.badge-credit { background-color: #fee2e2; color: #991b1b; }
-.badge-3arbon { background-color: #fef3c7; color: #92400e; }
+.badge-cash { background-color: #d4edda; color: #155724; }   /* Vert */
+.badge-credit { background-color: #f8d7da; color: #721c24; } /* Rouge */
+.badge-3arbon { background-color: #fff3cd; color: #856404; } /* Orange/Jaune */
 
-small {
-  display: block;
-  font-size: 10px;
-  color: #666;
+.down-payment-text {
+    display: block;
+    font-size: 0.75em;
+    opacity: 0.8;
 }

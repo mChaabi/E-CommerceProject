@@ -75,12 +75,16 @@
           <td class="amount">{{ order.totalAmount }} €</td>
 
           <td>
-            <span [class]="'badge-payment ' + 'badge-' + order.paymentMethod?.toLowerCase()">
+            @if (order.paymentMethod) {
+            <span [class]="'badge-payment badge-' + order.paymentMethod.toLowerCase()">
               {{ order.paymentMethod }}
-              @if (order.paymentMethod === '3ARBON') {
-              <small>({{ order.downPayment }} €)</small>
+              @if (order.paymentMethod === '3ARBON' && order.downPayment) {
+              <small class="down-payment-text">({{ order.downPayment }} €)</small>
               }
             </span>
+            } @else {
+            <span class="text-muted">Non défini</span>
+            }
           </td>
 
           <td>
