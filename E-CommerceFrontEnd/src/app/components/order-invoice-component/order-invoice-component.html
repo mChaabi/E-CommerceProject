@@ -1,0 +1,59 @@
+<div class="invoice-wrapper" *ngIf="order() as o">
+  <div class="no-print actions-bar">
+    <button class="btn-back" (click)="goBack()">← Retour</button>
+    <div class="msg-verify">Veuillez vérifier les données avant d'imprimer</div>
+    <button class="btn-confirm-print" (click)="printInvoice()">🖨️ Confirmer et Imprimer</button>
+  </div>
+
+  <div class="invoice-paper">
+    <div class="invoice-header">
+      <div class="company-info">
+        <h1>VOTRE BOUTIQUE</h1>
+        <p>Cabo Negro, Tétouan</p>
+      </div>
+      <div class="invoice-meta">
+        <h2>FACTURE</h2>
+        <p><strong>N° :</strong> #{{ o.id }}</p>
+        <p><strong>Date :</strong> {{ o.orderDate | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+    </div>
+
+    <div class="client-section">
+      <strong>Client :</strong> {{ o.user?.username || 'Client Inconnu' }}
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Quantité</th>
+          <th>Prix Unitaire</th>
+          <th class="text-right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of o.items">
+          <td>Produit #{{ item.product?.id }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price | number:'1.2-2' }} €</td>
+          <td class="text-right">{{ (item.price * item.quantity) | number:'1.2-2' }} €</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="invoice-footer">
+      <div class="payment-details">
+        <p>Mode de paiement : <strong>{{ o.paymentMethod }}</strong></p>
+        <p *ngIf="o.paymentMethod === '3ARBON'">
+          Avance payée : <strong>{{ o.downPayment | number:'1.2-2' }} €</strong>
+        </p>
+      </div>
+      <div class="totals-box">
+        <div class="total-row">
+          <span>TOTAL :</span>
+          <span class="final-amount">{{ o.totalAmount | number:'1.2-2' }} €</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

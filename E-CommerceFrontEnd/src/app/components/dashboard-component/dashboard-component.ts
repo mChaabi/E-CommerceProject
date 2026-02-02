@@ -26,6 +26,9 @@ export class DashboardComponent implements OnInit {
   // --- Signaux (État) ---
   totalRevenue = signal(0);
   orderCount = signal(0);
+  revenueToday = signal(0);    // Nouveau
+  revenueMonth = signal(0);    // Nouveau
+  revenueYear = signal(0);     // Nouveau
   productCount = signal(0);
   categoryCount = signal(0);
 
@@ -44,6 +47,43 @@ export class DashboardComponent implements OnInit {
       const revenue = orders.reduce((acc, curr) => acc + curr.totalAmount, 0);
       this.totalRevenue.set(revenue);
 
+
+      const now = new Date();
+      const todayStr = now.toLocaleDateString();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+
+      let total = 0;
+      let today = 0;
+      let month = 0;
+      let year = 0;
+
+      orders.forEach(o => {
+        const oDate = new Date(o.orderDate);
+        const amount = o.totalAmount;
+
+        total += amount;
+
+        // Ventes du jour
+        if (oDate.toLocaleDateString() === todayStr) {
+          today += amount;
+        }
+
+        // Ventes du mois (même mois et même année)
+        if (oDate.getMonth() === currentMonth && oDate.getFullYear() === currentYear) {
+          month += amount;
+        }
+
+        // Ventes de l'année
+        if (oDate.getFullYear() === currentYear) {
+          year += amount;
+        }
+      });
+
+      this.totalRevenue.set(total);
+      this.revenueToday.set(today);
+      this.revenueMonth.set(month);
+      this.revenueYear.set(year);
       // Initialisation des graphiques
       this.initSalesChart(orders);
       this.initTopProductsChart(orders);

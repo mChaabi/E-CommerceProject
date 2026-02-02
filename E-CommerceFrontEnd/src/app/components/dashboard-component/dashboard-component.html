@@ -2,11 +2,11 @@
   <h1>Tableau de Bord</h1>
 
   <div class="stats-grid">
-    <div class="stat-card">
+    <div class="stat-card principal">
       <div class="icon revenue">💰</div>
       <div class="stat-info">
-        <span>Revenu Total</span>
-        <h3>{{ totalRevenue() }} €</h3>
+        <span>Revenu Global</span>
+        <h3>{{ totalRevenue() | number:'1.2-2' }} €</h3>
       </div>
     </div>
 
@@ -35,19 +35,43 @@
     </div>
   </div>
 
- <div class="charts-grid">
-  <div class="chart-container">
-    <h3>Évolution des Ventes</h3>
-    <canvas #salesChart></canvas>
+  <div class="stats-grid temporal">
+    <div class="stat-card today">
+      <div class="stat-info">
+        <span>Ventes (Aujourd'hui)</span>
+        <h3 class="text-success">{{ revenueToday() | number:'1.2-2' }} €</h3>
+      </div>
+    </div>
+
+    <div class="stat-card month">
+      <div class="stat-info">
+        <span>Ventes (Ce mois)</span>
+        <h3 class="text-primary">{{ revenueMonth() | number:'1.2-2' }} €</h3>
+      </div>
+    </div>
+
+    <div class="stat-card year">
+      <div class="stat-info">
+        <span>Ventes (Cette année)</span>
+        <h3 class="text-info">{{ revenueYear() | number:'1.2-2' }} €</h3>
+      </div>
+    </div>
   </div>
 
-  <div class="chart-container">
-    <h3>Top Produits (Ventes)</h3>
-    <canvas #topProductsChart></canvas>
+  <div class="charts-grid">
+    <div class="chart-container">
+      <h3>Évolution des Ventes</h3>
+      <canvas #salesChart></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h3>Top Produits (Ventes)</h3>
+      <canvas #topProductsChart></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Répartition des Paiements</h3>
+      <canvas #paymentMethodsChart></canvas>
+    </div>
   </div>
-  <div class="chart-card">
-    <h3>Répartition des Paiements</h3>
-    <canvas #paymentMethodsChart></canvas>
-  </div>
-</div>
 </div>

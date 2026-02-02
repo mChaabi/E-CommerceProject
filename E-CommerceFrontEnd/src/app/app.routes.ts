@@ -3,6 +3,7 @@ import { ProductComponent } from './components/product-component/product-compone
 import { CategoryComponent } from './components/category-component/category-component';
 import { OrderComponent } from './components/order-component/order-component';
 import { DashboardComponent } from './components/dashboard-component/dashboard-component';
+import { OrderInvoiceComponent } from './components/order-invoice-component/order-invoice-component';
 
 export const routes: Routes = [
   // 1. Route racine : Redirection immédiate vers /dashboard
@@ -13,6 +14,7 @@ export const routes: Routes = [
   { path: 'produits', component: ProductComponent },
   { path: 'categories', component: CategoryComponent },
   { path: 'commandes', component: OrderComponent },
+  { path: 'orders/invoice/:id', component: OrderInvoiceComponent },
 
   // 3. Gestion de l'erreur 404 (Optionnel mais conseillé)
   // Si l'utilisateur tape une URL qui n'existe pas, on le renvoie au Dashboard

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Indispensable pour le formulaire
 import { OrderService } from '../../services/order-service';
 import { Order } from '../../models/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -13,6 +14,7 @@ import { Order } from '../../models/order';
 })
 export class OrderComponent implements OnInit {
   private orderService = inject(OrderService);
+  private router = inject(Router);
 
   orders = signal<Order[]>([]);
   isLoading = signal(true);
@@ -81,6 +83,13 @@ export class OrderComponent implements OnInit {
       downPayment: 0,
       items: [{ productId: null, quantity: null, price: null }]
     };
+  }
+
+  // AJOUTER CETTE MÉTHODE pour le bouton voir/imprimer
+  onViewInvoice(orderId: number | undefined) {
+    if (orderId) {
+      this.router.navigate(['/orders/invoice', orderId]);
+    }
   }
 
   // --- Méthodes existantes ---

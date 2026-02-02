@@ -1,0 +1,88 @@
+.invoice-wrapper {
+  padding: 20px;
+  background: #f4f4f5;
+  min-height: 100vh;
+}
+
+.actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.invoice-paper {
+  background: white;
+  width: 210mm; /* Largeur A4 */
+  margin: 0 auto;
+  padding: 50px;
+  min-height: 297mm;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #333;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0;
+}
+
+th {
+  background: #f8fafc;
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.invoice-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.final-amount {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4f46e5;
+}
+
+.btn-confirm-print {
+  background: #10b981;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* --- LOGIQUE D'IMPRESSION --- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .invoice-wrapper {
+    background: white;
+    padding: 0;
+  }
+  .invoice-paper {
+    box-shadow: none;
+    width: 100%;
+    padding: 0;
+  }
+}

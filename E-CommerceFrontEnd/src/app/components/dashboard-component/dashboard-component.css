@@ -82,3 +82,24 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   min-height: 350px;
 }
+
+/* Grille pour les stats temporelles */
+.stats-grid.temporal {
+  margin-top: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+/* Couleurs spécifiques pour les montants */
+.text-success { color: #10b981; } /* Vert pour aujourd'hui */
+.text-primary { color: #4f46e5; } /* Indigo pour le mois */
+.text-info { color: #06b6d4; }    /* Cyan pour l'année */
+
+.stat-card.principal {
+  background-color: #f8fafc;
+  border: 2px solid #e2e8f0;
+}
+
+.temporal .stat-card {
+  border-left: 4px solid currentColor; /* Ajoute une barre de couleur sur le côté */
+}

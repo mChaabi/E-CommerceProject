@@ -7,50 +7,50 @@
   </div>
 
   @if (showForm()) {
-    <div class="order-form-card">
-      <h3>Détails de la commande</h3>
-      <form (ngSubmit)="onSubmit()">
+  <div class="order-form-card">
+    <h3>Détails de la commande</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>ID Client</label>
+        <input type="number" [(ngModel)]="newOrder.userId" name="userId" required>
+      </div>
+
+      <div class="payment-methods-grid">
         <div class="form-group">
-          <label>ID Client</label>
-          <input type="number" [(ngModel)]="newOrder.userId" name="userId" required>
+          <label>Mode de Paiement</label>
+          <select [(ngModel)]="newOrder.paymentMethod" name="paymentMethod" class="form-control">
+            <option value="CASH">CASH (Espèces)</option>
+            <option value="CREDIT">CRÉDIT (Dette)</option>
+            <option value="3ARBON">3ARBON (Avance)</option>
+          </select>
         </div>
 
-        <div class="payment-methods-grid">
-          <div class="form-group">
-            <label>Mode de Paiement</label>
-            <select [(ngModel)]="newOrder.paymentMethod" name="paymentMethod" class="form-control">
-              <option value="CASH">CASH (Espèces)</option>
-              <option value="CREDIT">CRÉDIT (Dette)</option>
-              <option value="3ARBON">3ARBON (Avance)</option>
-            </select>
-          </div>
-
-          @if (newOrder.paymentMethod === '3ARBON') {
-            <div class="form-group">
-              <label>Montant de l'avance (3arbon)</label>
-              <input type="number" [(ngModel)]="newOrder.downPayment" name="downPayment" placeholder="0.00 €" required>
-            </div>
-          }
+        @if (newOrder.paymentMethod === '3ARBON') {
+        <div class="form-group">
+          <label>Montant de l'avance (3arbon)</label>
+          <input type="number" [(ngModel)]="newOrder.downPayment" name="downPayment" placeholder="0.00 €" required>
         </div>
+        }
+      </div>
 
-        <div class="items-section">
-          <h4>Articles</h4>
-          @for (item of newOrder.items; track $index) {
-            <div class="item-row">
-              <input type="number" placeholder="ID Produit" [(ngModel)]="item.productId" name="prod-{{$index}}" required>
-              <input type="number" placeholder="Quantité" [(ngModel)]="item.quantity" name="qty-{{$index}}" required>
-              <input type="number" placeholder="Prix Unitaire" [(ngModel)]="item.price" name="price-{{$index}}" required>
-              <button type="button" class="btn-remove" (click)="removeItem($index)">×</button>
-            </div>
-          }
-          <button type="button" class="btn-add-item" (click)="addItem()">+ Ajouter un article</button>
+      <div class="items-section">
+        <h4>Articles</h4>
+        @for (item of newOrder.items; track $index) {
+        <div class="item-row">
+          <input type="number" placeholder="ID Produit" [(ngModel)]="item.productId" name="prod-{{$index}}" required>
+          <input type="number" placeholder="Quantité" [(ngModel)]="item.quantity" name="qty-{{$index}}" required>
+          <input type="number" placeholder="Prix Unitaire" [(ngModel)]="item.price" name="price-{{$index}}" required>
+          <button type="button" class="btn-remove" (click)="removeItem($index)">×</button>
         </div>
+        }
+        <button type="button" class="btn-add-item" (click)="addItem()">+ Ajouter un article</button>
+      </div>
 
-        <div class="form-actions">
-          <button type="submit" class="btn-save">Enregistrer la commande</button>
-        </div>
-      </form>
-    </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Enregistrer la commande</button>
+      </div>
+    </form>
+  </div>
   }
 
   <div class="table-wrapper">
@@ -78,21 +78,28 @@
             <span [class]="'badge-payment ' + 'badge-' + order.paymentMethod?.toLowerCase()">
               {{ order.paymentMethod }}
               @if (order.paymentMethod === '3ARBON') {
-                <small>({{ order.downPayment }} €)</small>
+              <small>({{ order.downPayment }} €)</small>
               }
             </span>
           </td>
 
           <td>
             <select [class]="getStatusClass(order.status)" (change)="changeStatus(order.id, $any($event.target).value)">
-                <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
-                <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
-                <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
-                <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
+              <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
+              <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
+              <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
+              <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
             </select>
           </td>
           <td>
-            <button class="btn-delete" (click)="onDelete(order.id)">🗑️</button>
+            <div class="action-buttons">
+              <button class="btn-view" (click)="onViewInvoice(order.id)" title="Voir la facture">
+                👁️
+              </button>
+              <button class="btn-delete" (click)="onDelete(order.id)" title="Supprimer">
+                🗑️
+              </button>
+            </div>
           </td>
         </tr>
         }
