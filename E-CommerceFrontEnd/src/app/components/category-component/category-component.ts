@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category-service';
 import { Category } from '../../models/category';
+import { ProductService } from '../../services/product-service';
 
 @Component({
   selector: 'app-category',
@@ -14,6 +15,7 @@ import { Category } from '../../models/category';
 export class CategoryComponent implements OnInit {
   private fb = inject(FormBuilder);
   protected categoryService = inject(CategoryService);
+  protected productService = inject(ProductService);
 
   categoryForm: FormGroup;
   showForm = signal(false);
@@ -50,9 +52,18 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  onDelete(id: number | undefined) {
-    if (id && confirm('Supprimer cette catégorie ?')) {
-      this.categoryService.deleteCategory(id).subscribe();
-    }
+ onDelete(id: number | undefined) {
+  if (id && confirm('Supprimer cet élément ?')) {
+    this.productService.deleteProduct(id).subscribe({
+      next: () => {
+        // Succès
+      },
+      error: (err) => {
+        // err.error contient le message envoyé par le Backend
+        const errorMessage = typeof err.error === 'string' ? err.error : "Une erreur est survenue lors de la suppression.";
+        alert(errorMessage);
+      }
+    });
   }
+}
 }

@@ -48,17 +48,43 @@
           </td>
           <td>{{ item.color || '-' }}</td>
           <td>
-            <button type="button" (click)="onDelete($event, product.id)">
+            <button type="button" (click)="onDelete($event, item.id)">
               Supprimer
             </button>
           </td>
         </tr>
-        } @empty {
+        }
+        @empty {
         <tr>
           <td colspan="6" style="text-align: center;">Aucun produit trouvé.</td>
         </tr>
         }
       </tbody>
+
+      <div class="pagination-container">
+        <div class="pagination-info">
+          Affichage de <strong>{{ paginatedProducts().length }}</strong> sur <strong>{{ productService.products().length
+            }}</strong> produits
+        </div>
+
+        <div class="pagination-controls">
+          <button class="page-btn nav-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)"
+            title="Précédent">
+            <span class="arrow">&lsaquo;</span>
+          </button>
+
+          <div class="page-numbers">
+            <span class="current-badge">
+              Page {{ currentPage() }} / {{ totalPages() }}
+            </span>
+          </div>
+
+          <button class="page-btn nav-btn" [disabled]="currentPage() === totalPages()"
+            (click)="goToPage(currentPage() + 1)" title="Suivant">
+            <span class="arrow">&rsaquo;</span>
+          </button>
+        </div>
+      </div>
     </table>
   </div>
 </div>

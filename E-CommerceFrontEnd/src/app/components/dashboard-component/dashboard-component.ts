@@ -73,10 +73,10 @@ export class DashboardComponent implements OnInit {
   }
 
 
-// Add this line:
-totalFilteredRevenue = computed(() => {
-  return this.filteredOrders().reduce((acc, order) => acc + (order.totalAmount || 0), 0);
-});
+  // Add this line:
+  totalFilteredRevenue = computed(() => {
+    return this.filteredOrders().reduce((acc, order) => acc + (order.totalAmount || 0), 0);
+  });
   // --- Logique de Recherche ---
   onSearchDateChange(newDate: string) {
     this.searchDate.set(newDate);
@@ -151,7 +151,18 @@ totalFilteredRevenue = computed(() => {
         labels: labels,
         datasets: [{
           data: data,
-          backgroundColor: ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+          backgroundColor: [
+            '#4f46e5', // Indigo (existant)
+            '#10b981', // Émeraude (existant)
+            '#f59e0b', // Ambre (existant)
+            '#ef4444', // Rouge (existant)
+            '#8b5cf6', // Violet (existant)
+            '#ec4899', // Rose
+            '#06b6d4', // Cyan
+            '#84cc16', // Citron vert
+            '#f97316', // Orange
+            '#64748b'  // Ardoise / Gris bleu
+          ]
         }]
       }
     });

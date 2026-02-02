@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product-service';
@@ -15,6 +15,10 @@ export class ProductComponent implements OnInit {
   private fb = inject(FormBuilder);
   protected productService = inject(ProductService);
 
+  // Signaux pour la pagination
+  currentPage = signal(1);
+  pageSize = signal(5); // Nombre de produits par page
+
   productForm: FormGroup;
   showForm = signal(false);
 
@@ -28,6 +32,25 @@ export class ProductComponent implements OnInit {
       categoryId: [null, Validators.required],
       description: ['']
     });
+  }
+
+  // Signal calculé pour extraire uniquement les produits de la page actuelle
+  paginatedProducts = computed(() => {
+    const products = this.productService.products();
+    const startIndex = (this.currentPage() - 1) * this.pageSize();
+    return products.slice(startIndex, startIndex + this.pageSize());
+  });
+
+  // Signal pour calculer le nombre total de pages
+  totalPages = computed(() =>
+    Math.ceil(this.productService.products().length / this.pageSize())
+  );
+
+  // Méthodes de navigation
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
   }
 
   ngOnInit(): void {
@@ -57,11 +80,12 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  onDelete(e: Event, id: number | undefined) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (id && confirm('Supprimer ce produit ?')) {
-      this.productService.deleteProduct(id).subscribe();
-    }
+onDelete(event: Event, id: number | undefined) {
+  event.stopPropagation();
+  if (id && confirm('Voulez-vous vraiment supprimer ce produit ?')) {
+    this.productService.deleteProduct(id).subscribe({
+      error: (err) => alert(err.error) // Affiche le message d'erreur du Backend (ex: produit lié à une commande)
+    });
   }
+}
 }
