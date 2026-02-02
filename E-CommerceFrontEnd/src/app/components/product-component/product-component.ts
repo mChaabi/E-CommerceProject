@@ -57,7 +57,9 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  onDelete(id: number | undefined) {
+  onDelete(e: Event, id: number | undefined) {
+    e.preventDefault();
+    e.stopPropagation();
     if (id && confirm('Supprimer ce produit ?')) {
       this.productService.deleteProduct(id).subscribe();
     }
