@@ -42,20 +42,21 @@ export class OrderComponent implements OnInit {
     this.loadProducts(); // Chargez les produits au démarrage
   }
 
-loadProducts() {
-  this.productService.getAllProducts().subscribe({
-    next: (products) => this.allProducts.set(products),
-    error: (err) => console.error("Erreur produits", err)
-  });
-}
-
-// 3. (Optionnel) Mettre à jour le prix automatiquement quand on choisit un produit
-onProductChange(item: any) {
-  const selected = this.allProducts().find(p => p.id === Number(item.productId));
-  if (selected) {
-    item.price = selected.price; // Remplit automatiquement le prix unitaire
+  loadProducts() {
+    this.productService.getAllProducts().subscribe({
+      next: (products) => this.allProducts.set(products),
+      error: (err) => console.error("Erreur produits", err)
+    });
   }
-}
+  onProductChange(item: any) {
+    // Conversion explicite en nombre pour la comparaison
+    const selected = this.allProducts().find(p => Number(p.id) === Number(item.productId));
+    if (selected) {
+      item.price = selected.price;
+      // Optionnel: On peut aussi stocker le nom pour l'affichage immédiat
+      item.name = selected.name;
+    }
+  }
 
   // --- Logique du formulaire ---
 
@@ -75,7 +76,7 @@ onProductChange(item: any) {
     }
 
     const orderData = {
-      orderDate: new Date(), // Requis par l'interface Order
+      orderDate: new Date().toISOString(),// Requis par l'interface Order
       status: 'PENDING',
       paymentMethod: this.newOrder.paymentMethod,
       downPayment: this.newOrder.downPayment,
@@ -83,9 +84,10 @@ onProductChange(item: any) {
       // Pour le backend (userId direct)
       userId: Number(this.newOrder.userId),
 
-      // Pour l'interface Frontend (objet user) - Optionnel selon votre modèle
-      user: { id: Number(this.newOrder.userId) },
-
+      user: {
+        id: Number(this.newOrder.userId),
+        username: "Client #" + this.newOrder.userId // Temporaire avant refresh
+      },
       // Mapping des items pour correspondre au OrderItemDTO du backend
       items: this.newOrder.items.map(item => ({
         productId: Number(item.productId),
@@ -134,6 +136,12 @@ onProductChange(item: any) {
     this.isLoading.set(true);
     this.orderService.getUserOrders(1, this.currentPage(), this.pageSize).subscribe({
       next: (data: any) => {
+        // On s'assure que chaque commande a au moins un objet user vide pour éviter le crash
+        const sanitizedOrders = (data.content || data).map((order: any) => ({
+          ...order,
+          user: order.user || { username: 'Inconnu' }
+        }));
+        this.orders.set(sanitizedOrders);
         console.log("Données reçues :", data);
 
         if (data && Array.isArray(data)) {

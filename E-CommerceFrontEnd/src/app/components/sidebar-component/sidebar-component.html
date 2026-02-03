@@ -6,18 +6,24 @@
 
   <ul class="nav-list">
     @for (item of navItems; track item.path) {
-      <li>
-        <a [routerLink]="item.path"
-           routerLinkActive="active"
-           class="nav-link">
-          <span class="icon">{{ item.icon }}</span>
-          <span class="label">{{ item.label }}</span>
-        </a>
-      </li>
+    <li>
+      <a [routerLink]="item.path" routerLinkActive="active" class="nav-link">
+        <span class="icon">{{ item.icon }}</span>
+        <span class="label">{{ item.label | translate }}</span>
+      </a>
+    </li>
     } @empty {
-      <li class="nav-link">Aucun menu disponible</li>
+    <li class="nav-link">Aucun menu disponible</li>
     }
   </ul>
+
+  <div class="lang-picker">
+    <select (change)="changeLanguage($event)" class="form-select">
+      <option value="fr">Français</option>
+      <option value="es">Español</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
 
   <div class="sidebar-footer">
     <p>© 2026 Entreprise</p>

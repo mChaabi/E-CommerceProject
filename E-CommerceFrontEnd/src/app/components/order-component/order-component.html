@@ -41,7 +41,7 @@
             (change)="onProductChange(item)" required>
             <option [ngValue]="null" disabled selected>Choisir un produit</option>
             @for (product of allProducts(); track product.id) {
-            <option [value]="product.id">{{ product.name }}</option>
+            <option [ngValue]="product.id">{{ product.name }}</option>
             }
           </select>
 
@@ -80,8 +80,8 @@
       <tr>
         <td>#{{ order.id }}</td>
         <td>{{ order.orderDate | date:'dd/MM HH:mm' }}</td>
-        <td>{{ order.user.username || 'Client Inconnu' }}</td>
-        <td class="amount">{{ order.totalAmount | number:'1.2-2' }} €</td>
+        <td>{{ order.user?.username || 'Client non spécifié' }}</td>
+        <td class="amount">{{ (order.totalAmount || 0) | number:'1.2-2' }} €</td>
 
         <td>
           @if (order.paymentMethod) {

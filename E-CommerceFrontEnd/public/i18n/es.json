@@ -1,0 +1,12 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Tablero",
+    "PRODUCTS": "Productos",
+    "CATEGORIES": "Categorías",
+    "ORDERS": "Pedidos"
+  },
+  "DASHBOARD": {
+    "TOTAL_REVENUE": "Ingresos Totales",
+    "PRODUCT_COUNT": "Total Productos"
+  }
+}

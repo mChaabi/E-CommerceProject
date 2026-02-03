@@ -1,19 +1,26 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig,inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-// Importez withFetch ici
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideClientHydration } from '@angular/platform-browser';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideClientHydration(withEventReplay()),
-    // Utilisation correcte de withFetch()
-    provideHttpClient(
-      withFetch()
-    )
+    provideClientHydration(),
+    provideHttpClient(withFetch()),
+    provideTranslateService({
+      lang: 'es',
+      fallbackLang: 'es',
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json'
+      })
+    }),// <--- AJOUTEZ BIEN LA VIRGULE ICI
   ]
 };

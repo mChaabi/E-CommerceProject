@@ -22,8 +22,17 @@ export class CategoryComponent implements OnInit {
 
   constructor() {
     this.categoryForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['']
+      name: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        // Cette Regex impose de commencer par une lettre et interdit les répétitions absurdes de consonnes
+        Validators.pattern(/^[A-ZÀ-ÿ][a-zà-ÿ0-9\s&]{2,30}$/)
+      ]],
+      description: ['', [
+        Validators.required, // On la rend obligatoire pour éviter le vide
+        Validators.minLength(10),
+        Validators.maxLength(200)
+      ]]
     });
   }
 
@@ -53,17 +62,17 @@ export class CategoryComponent implements OnInit {
   }
 
  onDelete(id: number | undefined) {
-  if (id && confirm('Supprimer cet élément ?')) {
-    this.productService.deleteProduct(id).subscribe({
-      next: () => {
-        // Succès
-      },
-      error: (err) => {
-        // err.error contient le message envoyé par le Backend
-        const errorMessage = typeof err.error === 'string' ? err.error : "Une erreur est survenue lors de la suppression.";
-        alert(errorMessage);
-      }
-    });
+    if (id && confirm('Supprimer cet élément ?')) {
+      // CAMBIA productService por categoryService
+      this.categoryService.deleteCategory(id).subscribe({
+        next: () => {
+          console.log('Supprimé con éxito');
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Erreur lors de la suppression");
+        }
+      });
+    }
   }
-}
 }

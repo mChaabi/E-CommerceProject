@@ -5,22 +5,38 @@
       {{ showForm() ? 'Annuler' : '+ Nouvelle Catégorie' }}
     </button>
   </div>
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Nom de la catégorie</label>
+      <input type="text" formControlName="name" placeholder="Ex: Électronique">
 
-  @if (showForm()) {
-    <div class="card-form">
-      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label>Nom de la catégorie</label>
-          <input type="text" formControlName="name" placeholder="Ex: Électronique">
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea formControlName="description" placeholder="Description facultative..."></textarea>
-        </div>
-        <button type="submit" [disabled]="categoryForm.invalid" class="btn-save">Enregistrer</button>
-      </form>
+      @if (categoryForm.get('name')?.touched && categoryForm.get('name')?.invalid) {
+      <div class="error-message" style="color: #e74c3c; font-size: 12px; margin-top: 5px;">
+        @if (categoryForm.get('name')?.errors?.['required']) { <span>Le nom est requis.</span> }
+        @if (categoryForm.get('name')?.errors?.['pattern']) { <span>Format invalide (commencez par une
+          majuscule).</span> }
+        @if (categoryForm.get('name')?.errors?.['minlength']) { <span>Trop court (min. 3).</span> }
+      </div>
+      }
     </div>
-  }
+
+    <div class="form-group" style="margin-top: 15px;">
+      <label>Description</label>
+      <textarea formControlName="description" placeholder="Détaillez la catégorie..."></textarea>
+
+      @if (categoryForm.get('description')?.touched && categoryForm.get('description')?.invalid) {
+      <div class="error-message" style="color: #e74c3c; font-size: 12px; margin-top: 5px;">
+        @if (categoryForm.get('description')?.errors?.['required']) { <span>Une description est nécessaire.</span> }
+        @if (categoryForm.get('description')?.errors?.['minlength']) { <span>La description doit être plus détaillée (10
+          caractères min).</span> }
+      </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="categoryForm.invalid" class="btn-save" style="margin-top: 20px;">
+      Enregistrer
+    </button>
+  </form>
 
   <div class="table-wrapper">
     <table>
@@ -35,23 +51,23 @@
       </thead>
       <tbody>
         @for (cat of categoryService.categories(); track cat.id) {
-          <tr>
-            <td>#{{ cat.id }}</td>
-            <td><strong>{{ cat.name }}</strong></td>
-            <td>{{ cat.description || 'Aucune description' }}</td>
-            <td>
-              <span class="badge">{{ cat.products?.length || 0 }} produits</span>
-            </td>
-            <td style="text-align: right;">
-              <button class="btn-icon-delete" (click)="onDelete(cat.id!)">
-                Supprimer
-              </button>
-            </td>
-          </tr>
+        <tr>
+          <td>#{{ cat.id }}</td>
+          <td><strong>{{ cat.name }}</strong></td>
+          <td>{{ cat.description || 'Aucune description' }}</td>
+          <td>
+            <span class="badge">{{ cat.products?.length || 0 }} produits</span>
+          </td>
+          <td style="text-align: right;">
+            <button class="btn-icon-delete" (click)="onDelete(cat.id!)">
+              Supprimer
+            </button>
+          </td>
+        </tr>
         } @empty {
-          <tr>
-            <td colspan="5" class="empty-state">Aucune catégorie disponible.</td>
-          </tr>
+        <tr>
+          <td colspan="5" class="empty-state">Aucune catégorie disponible.</td>
+        </tr>
         }
       </tbody>
     </table>

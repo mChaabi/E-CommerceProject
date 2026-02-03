@@ -1,0 +1,12 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "لوحة القيادة",
+    "PRODUCTS": "المنتجات",
+    "CATEGORIES": "الفئات",
+    "ORDERS": "الطلبات"
+  },
+  "DASHBOARD": {
+    "TOTAL_REVENUE": "إجمالي الإيرادات",
+    "PRODUCT_COUNT": "إجمالي المنتجات"
+  }
+}
