@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   revenueYear = signal(0);
   productCount = signal(0);
   categoryCount = signal(0);
-
+  allProducts = signal<any[]>([]);
 
 
   // --- Signaux pour la Recherche et le Tableau ---
@@ -44,33 +44,41 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
+loadData() {
+  // Primero cargamos los productos
+  this.productService.getAllProducts().subscribe(products => {
+    this.allProducts.set(products);
+    this.productCount.set(products.length);
 
-  loadData() {
-    // 1. Charger les commandes et calculer tout ce qui en dépend
+    // DESPUÉS cargamos las órdenes para poder cruzarlas
     this.orderService.getUserOrders(1).subscribe(orders => {
-      this.allOrders = orders;
-      this.orderCount.set(orders.length);
+      // Mapeamos las órdenes para insertar el productName si falta
+      const enrichedOrders = orders.map((order: any) => ({
+        ...order,
+        items: order.items.map((item: any) => {
+          const product = products.find(p => p.id === item.productId);
+          return {
+            ...item,
+            productName: item.productName || product?.name || 'Produit inconnu'
+          };
+        })
+      }));
 
-      // Calcul des statistiques globales
-      this.calculateStats(orders);
-
-      // Filtrer les commandes pour le tableau (init avec la date du jour)
+      this.allOrders = enrichedOrders;
+      this.orderCount.set(enrichedOrders.length);
+      this.calculateStats(enrichedOrders);
       this.onSearchDateChange(this.searchDate());
 
-      // Initialisation des graphiques (Utiliser setTimeout pour s'assurer que le DOM est prêt)
       setTimeout(() => {
-        this.initSalesChart(orders);
-        this.initTopProductsChart(orders);
-        this.initPaymentChart(orders);
+        this.initSalesChart(enrichedOrders);
+        this.initTopProductsChart(enrichedOrders);
+        this.initPaymentChart(enrichedOrders);
       }, 0);
     });
+  });
 
-    // 2. Statistiques Produits
-    this.productService.getAllProducts().subscribe(res => this.productCount.set(res.length));
-
-    // 3. Statistiques Catégories
-    this.categoryService.getAllCategories().subscribe(res => this.categoryCount.set(res.length));
-  }
+  this.categoryService.getAllCategories().subscribe(res => this.categoryCount.set(res.length));
+}
 
 
   // Add this line:

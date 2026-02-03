@@ -283,3 +283,22 @@
 
 .payment-method { font-weight: 600; color: #10b981; }
 .total-day { font-size: 1.2rem; font-weight: bold; color: #4f46e5; }
+
+.product-badge {
+  display: inline-block;
+  background-color: #e0f2fe; /* Azul claro */
+  color: #0369a1; /* Azul oscuro */
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  border: 1px solid #bae6fd;
+  font-weight: 500;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 300px; /* Ajusta según tu diseño */
+}

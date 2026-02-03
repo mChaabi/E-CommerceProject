@@ -16,17 +16,16 @@ export class OrderInvoiceComponent implements OnInit {
   private orderService = inject(OrderService);
 
   order = signal<any>(null);
-
+  orders :any[] = [];
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      // Utilise une méthode getOrderById si elle existe dans ton service
-      // Sinon, garde ta logique mais vérifie la console pour voir si paymentMethod existe
-      this.orderService.getUserOrders(1).subscribe(orders => {
-        const found = orders.find(o => o.id === Number(id));
+      this.orderService.getUserOrders(1).subscribe((response: any) => {
+        const found = this.orders.find((o: { id: number }) => o.id === Number(id));
         console.log("Commande pour facture :", found); // Vérifie ici si paymentMethod est présent
         if (found) {
           this.order.set(found);
+          this.order = response.content; // Assuming 'response' is an object with a 'content' property
         } else {
           this.goBack();
         }

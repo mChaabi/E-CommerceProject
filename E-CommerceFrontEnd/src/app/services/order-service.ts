@@ -15,9 +15,14 @@ export class OrderService {
     return this.http.post<Order>(`${this.apiUrl}/add`, order);
   }
 
-  // 2. Récupérer les commandes d'un utilisateur
-  getUserOrders(userId: number): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
+// 2. Récupérer les commandes d'un utilisateur (VERSION UNIQUE AVEC PAGINATION)
+  // On utilise des valeurs par défaut (0 et 10) si les paramètres ne sont pas fournis
+  getUserOrders(userId: number, page: number = 0, size: number = 10): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/user/${userId}`, { params });
   }
 
   // 3. Mettre à jour le statut (utilise @PatchMapping avec RequestParam)
@@ -38,4 +43,5 @@ export class OrderService {
   deleteOrder(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
+
 }

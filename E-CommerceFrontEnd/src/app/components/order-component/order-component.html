@@ -37,9 +37,17 @@
         <h4>Articles</h4>
         @for (item of newOrder.items; track $index) {
         <div class="item-row">
-          <input type="number" placeholder="ID Produit" [(ngModel)]="item.productId" name="prod-{{$index}}" required>
+          <select [(ngModel)]="item.productId" name="prod-{{$index}}" class="form-control"
+            (change)="onProductChange(item)" required>
+            <option [ngValue]="null" disabled selected>Choisir un produit</option>
+            @for (product of allProducts(); track product.id) {
+            <option [value]="product.id">{{ product.name }}</option>
+            }
+          </select>
+
           <input type="number" placeholder="Quantité" [(ngModel)]="item.quantity" name="qty-{{$index}}" required>
           <input type="number" placeholder="Prix Unitaire" [(ngModel)]="item.price" name="price-{{$index}}" required>
+
           <button type="button" class="btn-remove" (click)="removeItem($index)">×</button>
         </div>
         }
@@ -52,62 +60,73 @@
     </form>
   </div>
   }
+</div>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Date</th>
-          <th>Client</th>
-          <th>Total</th>
-          <th>Paiement</th>
-          <th>Statut</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (order of orders(); track order.id) {
-        <tr>
-          <td>#{{ order.id }}</td>
-          <td>{{ order.orderDate | date:'dd/MM HH:mm' }}</td>
-          <td>{{ order.user?.username || 'Client Inconnu' }}</td>
-          <td class="amount">{{ order.totalAmount }} €</td>
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Client</th>
+        <th>Total</th>
+        <th>Paiement</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (order of orders(); track order.id) {
+      <tr>
+        <td>#{{ order.id }}</td>
+        <td>{{ order.orderDate | date:'dd/MM HH:mm' }}</td>
+        <td>{{ order.user.username || 'Client Inconnu' }}</td>
+        <td class="amount">{{ order.totalAmount | number:'1.2-2' }} €</td>
 
-          <td>
-            @if (order.paymentMethod) {
-            <span [class]="'badge-payment badge-' + order.paymentMethod.toLowerCase()">
-              {{ order.paymentMethod }}
-              @if (order.paymentMethod === '3ARBON' && order.downPayment) {
-              <small class="down-payment-text">({{ order.downPayment }} €)</small>
-              }
-            </span>
-            } @else {
-            <span class="text-muted">Non défini</span>
+        <td>
+          @if (order.paymentMethod) {
+          <span [class]="'badge-payment badge-' + order.paymentMethod.toLowerCase()">
+            {{ order.paymentMethod }}
+            @if (order.paymentMethod === '3ARBON' && order.downPayment) {
+            <small class="down-payment-text">({{ order.downPayment }} €)</small>
             }
-          </td>
+          </span>
+          } @else {
+          <span class="text-muted">Non défini</span>
+          }
+        </td>
 
-          <td>
-            <select [class]="getStatusClass(order.status)" (change)="changeStatus(order.id, $any($event.target).value)">
-              <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
-              <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
-              <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
-              <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
-            </select>
-          </td>
-          <td>
-            <div class="action-buttons">
-              <button class="btn-view" (click)="onViewInvoice(order.id)" title="Voir la facture">
-                👁️
-              </button>
-              <button class="btn-delete" (click)="onDelete(order.id)" title="Supprimer">
-                🗑️
-              </button>
-            </div>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
+        <td>
+          <select [class]="'status-select ' + getStatusClass(order.status)"
+            (change)="changeStatus(order.id, $any($event.target).value)">
+            <option value="PENDING" [selected]="order.status === 'PENDING'">EN ATTENTE</option>
+            <option value="SHIPPED" [selected]="order.status === 'SHIPPED'">EXPÉDIÉ</option>
+            <option value="DELIVERED" [selected]="order.status === 'DELIVERED'">LIVRÉ</option>
+            <option value="CANCELLED" [selected]="order.status === 'CANCELLED'">ANNULÉ</option>
+          </select>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-view" (click)="onViewInvoice(order.id)" title="Voir la facture">👁️</button>
+            <button class="btn-delete" (click)="onDelete(order.id)" title="Supprimer">🗑️</button>
+          </div>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination-container">
+    <div class="pagination-info">
+      Page {{ currentPage() + 1 }} sur {{ totalPages() }}
+    </div>
+    <div class="pagination-buttons">
+      <button class="btn-pagination" [disabled]="currentPage() === 0" (click)="changePage(-1)">
+        &laquo; Précédent
+      </button>
+      <button class="btn-pagination" [disabled]="currentPage() >= totalPages() - 1" (click)="changePage(1)">
+        Suivant &raquo;
+      </button>
+    </div>
   </div>
 </div>

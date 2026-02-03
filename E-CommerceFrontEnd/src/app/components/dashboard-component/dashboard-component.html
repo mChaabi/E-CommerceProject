@@ -83,10 +83,7 @@
     <h2>🔍 Recherche détaillée par jour</h2>
     <div class="search-controls">
       <label>Choisir une date : </label>
-      <input type="date"
-             [ngModel]="searchDate()"
-             (ngModelChange)="onSearchDateChange($event)"
-             class="date-input">
+      <input type="date" [ngModel]="searchDate()" (ngModelChange)="onSearchDateChange($event)" class="date-input">
     </div>
   </div>
 
@@ -102,33 +99,35 @@
       </thead>
       <tbody>
         @for (order of filteredOrders(); track order.id) {
-          <tr>
-            <td>{{ order.orderDate | date:'HH:mm' }}</td>
-            <td>
-              <div class="product-list">
-                @for (item of order.items; track item.productName) {
-                  <span class="product-badge">{{ item.quantity }}x {{ item.productName }}</span>
-                }
-              </div>
-            </td>
-            <td><span class="payment-method">{{ order.paymentMethod }}</span></td>
-            <td class="amount-cell text-right">{{ order.totalAmount | number:'1.2-2' }} €</td>
-          </tr>
+        <tr>
+          <td>{{ order.orderDate | date:'HH:mm' }}</td>
+          <td>
+            <div class="product-list">
+              @for (item of order.items; track $index) {
+              <span class="product-badge">
+                {{ item.quantity }}x {{ item.productName }}
+              </span>
+              }
+            </div>
+          </td>
+          <td><span class="payment-method">{{ order.paymentMethod }}</span></td>
+          <td class="amount-cell text-right">{{ order.totalAmount | number:'1.2-2' }} €</td>
+        </tr>
         } @empty {
-          <tr>
-            <td colspan="4" class="empty-msg">
-              Aucune vente enregistrée pour le {{ searchDate() | date:'dd/MM/yyyy' }}
-            </td>
-          </tr>
+        <tr>
+          <td colspan="4" class="empty-msg">
+            Aucune vente enregistrée pour le {{ searchDate() | date:'dd/MM/yyyy' }}
+          </td>
+        </tr>
         }
       </tbody>
       @if (filteredOrders().length > 0) {
-        <tfoot>
-          <tr>
-            <td colspan="3"><strong>Total de la journée sélectionnée</strong></td>
-            <td class="total-day text-right">{{ totalFilteredRevenue() | number:'1.2-2' }} €</td>
-          </tr>
-        </tfoot>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>Total de la journée sélectionnée</strong></td>
+          <td class="total-day text-right">{{ totalFilteredRevenue() | number:'1.2-2' }} €</td>
+        </tr>
+      </tfoot>
       }
     </table>
   </div>

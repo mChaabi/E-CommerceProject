@@ -36,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (item of productService.products(); track item.id) {
+      @for (item of paginatedProducts(); track item.id) {
         <tr>
           <td>#{{ item.id }}</td>
           <td><strong>{{ item.name }}</strong></td>
@@ -60,31 +60,30 @@
         </tr>
         }
       </tbody>
-
-      <div class="pagination-container">
-        <div class="pagination-info">
-          Affichage de <strong>{{ paginatedProducts().length }}</strong> sur <strong>{{ productService.products().length
-            }}</strong> produits
-        </div>
-
-        <div class="pagination-controls">
-          <button class="page-btn nav-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)"
-            title="Précédent">
-            <span class="arrow">&lsaquo;</span>
-          </button>
-
-          <div class="page-numbers">
-            <span class="current-badge">
-              Page {{ currentPage() }} / {{ totalPages() }}
-            </span>
-          </div>
-
-          <button class="page-btn nav-btn" [disabled]="currentPage() === totalPages()"
-            (click)="goToPage(currentPage() + 1)" title="Suivant">
-            <span class="arrow">&rsaquo;</span>
-          </button>
-        </div>
-      </div>
     </table>
+    <div class="pagination-container">
+      <div class="pagination-info">
+        Affichage de <strong>{{ paginatedProducts().length }}</strong> sur <strong>{{ productService.products().length
+          }}</strong> produits
+      </div>
+
+      <div class="pagination-controls">
+        <button class="page-btn nav-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)"
+          title="Précédent">
+          <span class="arrow">&lsaquo;</span>
+        </button>
+
+        <div class="page-numbers">
+          <span class="current-badge">
+            Page {{ currentPage() }} / {{ totalPages() }}
+          </span>
+        </div>
+
+        <button class="page-btn nav-btn" [disabled]="currentPage() === totalPages()"
+          (click)="goToPage(currentPage() + 1)" title="Suivant">
+          <span class="arrow">&rsaquo;</span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
