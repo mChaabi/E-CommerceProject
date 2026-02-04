@@ -302,3 +302,12 @@
   flex-wrap: wrap;
   max-width: 300px; /* Ajusta según tu diseño */
 }
+
+/* Dans dashboard.component.css */
+.chart-card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%; /* Important */
+  overflow: hidden; /* Empêche le canvas de sortir */
+}

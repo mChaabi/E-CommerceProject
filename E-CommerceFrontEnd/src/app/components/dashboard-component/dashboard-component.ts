@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, signal, ElementRef, ViewChild, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, ElementRef, ViewChild, computed,PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../services/order-service';
@@ -19,6 +20,7 @@ export class DashboardComponent implements OnInit {
   private orderService = inject(OrderService);
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
+  private platformId = inject(PLATFORM_ID); // <--- AJOUTE CECI
 
   // --- ViewChild (Canvas pour Chart.js) ---
   @ViewChild('salesChart') salesChartCanvas!: ElementRef;
@@ -69,11 +71,15 @@ loadData() {
       this.calculateStats(enrichedOrders);
       this.onSearchDateChange(this.searchDate());
 
-      setTimeout(() => {
-        this.initSalesChart(enrichedOrders);
-        this.initTopProductsChart(enrichedOrders);
-        this.initPaymentChart(enrichedOrders);
-      }, 0);
+   // --- PROTECTION POUR LE SERVEUR ---
+        // On n'initialise les graphiques QUE si on est sur un navigateur
+        if (isPlatformBrowser(this.platformId)) {
+          setTimeout(() => {
+            this.initSalesChart(enrichedOrders);
+            this.initTopProductsChart(enrichedOrders);
+            this.initPaymentChart(enrichedOrders);
+          }, 0);
+        }
     });
   });
 

@@ -1,0 +1,12 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Tableau de bord",
+    "PRODUCTS": "Produits",
+    "CATEGORIES": "Catégories",
+    "ORDERS": "Commandes"
+  },
+  "DASHBOARD": {
+    "TOTAL_REVENUE": "Revenu total",
+    "PRODUCT_COUNT": "Nombre total de produits"
+  }
+}

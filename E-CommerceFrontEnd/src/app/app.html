@@ -1,6 +1,15 @@
-<div style="display: flex;">
+<div class="app-container" [class.sidebar-open]="isSidebarOpen">
   <app-sidebar></app-sidebar>
-  <main style="margin-left: 260px; padding: 20px; width: 100%;">
-    <router-outlet></router-outlet>
+
+  <div class="sidebar-overlay" *ngIf="isSidebarOpen" (click)="toggleSidebar()"></div>
+
+  <main class="main-content">
+    <div class="top-bar">
+        <button class="menu-toggle" (click)="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="router-container">
+      <router-outlet></router-outlet>
+    </div>
   </main>
 </div>

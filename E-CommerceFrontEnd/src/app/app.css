@@ -1,0 +1,64 @@
+/* Réinitialisation de base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Empêche le scroll sur toute la page */
+}
+
+app-sidebar {
+  width: 260px; /* Largeur fixe de votre sidebar */
+  flex-shrink: 0; /* Empêche la sidebar de s'écraser */
+  height: 100%;
+  background-color: #1a2235;
+  color: white;
+}
+
+.main-content {
+  flex: 1; /* Prend tout l'espace disponible */
+  min-width: 0; /* FORCE le contenu à pouvoir rétrécir */
+  height: 100%;
+  background-color: #f4f7fe;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Permet le scroll vertical interne uniquement */
+}
+
+.menu-toggle {
+  display: none; /* Caché sur desktop */
+  padding: 10px;
+  cursor: pointer;
+}
+
+.router-container {
+  padding: 20px;
+  width: 100%;
+  max-width: 100%;
+  /* Important pour les graphiques */
+  position: relative;
+}
+
+/* Responsivité Mobile */
+@media (max-width: 768px) {
+  app-sidebar {
+    position: fixed;
+    left: -260px;
+    z-index: 1000;
+    transition: 0.3s;
+  }
+
+  .app-container.sidebar-open app-sidebar {
+    left: 0;
+  }
+
+  .menu-toggle {
+    display: block;
+    width: fit-content;
+  }
+}
