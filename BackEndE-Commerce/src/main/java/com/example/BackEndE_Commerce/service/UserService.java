@@ -21,6 +21,12 @@ public class UserService {
     // AJOUTE CETTE LIGNE :
     private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
+    public UserService(UserRepository userRepository, UserMapper userMapper, org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @Transactional
     public UserDTO registerUser(UserDTO userDTO) {

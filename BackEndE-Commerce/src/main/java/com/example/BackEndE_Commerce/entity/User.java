@@ -38,4 +38,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Order> orders;
+
+    public void setId(long l) {
+    }
+
+    public void setUsername(String testuser) {
+    }
+
+    public void setEmail(String mail) {
+    }
 }
